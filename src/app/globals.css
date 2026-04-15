@@ -13,15 +13,12 @@ body {
 
 * {
   box-sizing: border-box;
-  touch-action: pan-x pan-y !important;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
+html,
 body {
-  touch-action: pan-x pan-y !important;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Grain texture overlay */

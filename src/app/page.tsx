@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Share2,
@@ -108,14 +108,17 @@ export default function Home() {
   const [showOpening, setShowOpening] = useState(true);
   const [showNav, setShowNav] = useState(false);
   const [fontSize, setFontSize] = useState(1);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (showOpening) return;
+    const container = scrollRef.current;
+    if (!container) return;
     const onScroll = () => {
-      setShowNav(window.scrollY > window.innerHeight * 0.5);
+      setShowNav(container.scrollTop > window.innerHeight * 0.5);
     };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    container.addEventListener("scroll", onScroll);
+    return () => container.removeEventListener("scroll", onScroll);
   }, [showOpening]);
 
   useEffect(() => {
@@ -127,11 +130,15 @@ export default function Home() {
 
   return (
     <div
+      ref={scrollRef}
       className="grain-overlay"
       style={{
         fontFamily: "'Noto Serif KR', 'Gowun Dodum', serif",
         background: COLORS.bg,
-        minHeight: "100vh",
+        height: "100vh",
+        overflowY: showOpening ? "hidden" : "scroll",
+        overflowX: "hidden",
+        touchAction: "pan-y",
       }}
     >
       {/* Opening Overlay */}

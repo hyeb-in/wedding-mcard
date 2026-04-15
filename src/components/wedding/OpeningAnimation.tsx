@@ -72,7 +72,15 @@ export function OpeningAnimation({ onEnter }: OpeningAnimationProps) {
       className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden select-none"
       style={{
         background: "#F4F8F4",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: "100%",
+        height: "100%",
+        touchAction: "none",
       }}
+      onTouchMove={(e) => e.preventDefault()}
     >
       {/* Soft sparkle dots */}
       {Array.from({ length: 55 }, (_, i) => {
