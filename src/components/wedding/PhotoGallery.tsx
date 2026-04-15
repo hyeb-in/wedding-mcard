@@ -66,7 +66,7 @@ export function PhotoGallery() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={PHOTOS[current].src}
-                alt={PHOTOS[current].caption}
+                alt=""
                 draggable={false}
                 style={{
                   width: "100%",
@@ -94,7 +94,7 @@ export function PhotoGallery() {
             minHeight: "1.2em",
           }}
         >
-          {PHOTOS[current].caption}
+          {''}
         </p>
 
         {/* Dot indicators */}
