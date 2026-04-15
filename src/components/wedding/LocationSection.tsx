@@ -77,10 +77,12 @@ export function LocationSection() {
                 color: COLORS.dark,
               }}
             >
-              {WEDDING_INFO.address}
+              {WEDDING_INFO.venue} {WEDDING_INFO.venueDetail}
             </p>
-            <p style={{ fontSize: "0.75rem", color: COLORS.dark, marginTop: 4 }}>
-              {WEDDING_INFO.venueDetail}
+            <p
+              style={{ fontSize: "0.75rem", color: COLORS.dark, marginTop: 4 }}
+            >
+              {WEDDING_INFO.address}
             </p>
           </div>
         </div>

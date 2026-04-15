@@ -27,6 +27,21 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Gowun+Dodum&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap"
           rel="stylesheet"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              document.addEventListener('touchmove', function(e) {
+                if (e.touches.length > 1) e.preventDefault();
+              }, { passive: false });
+              document.addEventListener('gesturestart', function(e) {
+                e.preventDefault();
+              }, { passive: false });
+              document.addEventListener('gesturechange', function(e) {
+                e.preventDefault();
+              }, { passive: false });
+            `,
+          }}
+        />
       </head>
       <body className="min-h-full">{children}</body>
     </html>
