@@ -30,6 +30,9 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              document.addEventListener('touchstart', function(e) {
+                if (e.touches.length > 1) e.preventDefault();
+              }, { passive: false });
               document.addEventListener('touchmove', function(e) {
                 if (e.touches.length > 1) e.preventDefault();
               }, { passive: false });
