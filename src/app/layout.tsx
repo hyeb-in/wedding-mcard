@@ -30,18 +30,32 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              document.addEventListener('touchstart', function(e) {
-                if (e.touches.length > 1) e.preventDefault();
-              }, { passive: false });
-              document.addEventListener('touchmove', function(e) {
-                if (e.touches.length > 1) e.preventDefault();
-              }, { passive: false });
-              document.addEventListener('gesturestart', function(e) {
-                e.preventDefault();
-              }, { passive: false });
-              document.addEventListener('gesturechange', function(e) {
-                e.preventDefault();
-              }, { passive: false });
+              (function() {
+                var lastScale = 1;
+                document.addEventListener('touchstart', function(e) {
+                  if (e.touches.length > 1) e.preventDefault();
+                }, { passive: false });
+                document.addEventListener('touchmove', function(e) {
+                  if (e.touches.length > 1) e.preventDefault();
+                  if (e.scale !== undefined && e.scale !== 1) e.preventDefault();
+                }, { passive: false });
+                document.addEventListener('touchend', function(e) {
+                  lastScale = 1;
+                }, { passive: false });
+                document.addEventListener('gesturestart', function(e) {
+                  e.preventDefault();
+                }, { passive: false });
+                document.addEventListener('gesturechange', function(e) {
+                  e.preventDefault();
+                  if (e.scale !== undefined && e.scale !== lastScale) {
+                    lastScale = e.scale;
+                  }
+                }, { passive: false });
+                document.addEventListener('gestureend', function(e) {
+                  e.preventDefault();
+                  lastScale = 1;
+                }, { passive: false });
+              })();
             `,
           }}
         />
