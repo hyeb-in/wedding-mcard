@@ -33,23 +33,16 @@ const NAV_ITEMS = [
   { label: "방명록", href: "#guestbook", Icon: BookOpen },
 ];
 
-function FloatingNav({ show }: { show: boolean }) {
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "김우혁 ♥ 노현정 결혼합니다",
-          text: "2026년 6월 6일 토요일 오후 2시 30분 · 더 링크 서울",
-          url: window.location.href,
-        });
-      } catch {
-        // user cancelled
-      }
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert("링크가 복사되었습니다! 🎊");
-    }
-  };
+function FloatingNav({
+  show,
+  fontSize,
+  onFontSizeChange,
+}: {
+  show: boolean;
+  fontSize: number;
+  onFontSizeChange: (size: number) => void;
+}) {
+  const isEnlarged = fontSize > 1;
 
   return (
     <AnimatePresence>
@@ -61,82 +54,50 @@ function FloatingNav({ show }: { show: boolean }) {
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           style={{
             position: "fixed",
-            bottom: 20,
-            left: "50%",
-            transform: "translateX(-50%)",
+            bottom: "calc(env(safe-area-inset-bottom, 20px) + 16px)",
+            left: 0,
+            right: 0,
             zIndex: 40,
-            width: "calc(100% - 32px)",
-            maxWidth: 398,
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          <div
+          <button
+            onClick={() => onFontSizeChange(isEnlarged ? 1 : 1.3)}
             style={{
-              background: "rgba(30,50,30,0.6)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              borderRadius: 20,
-              padding: "10px 12px",
+              padding: "12px 22px",
+              background: COLORS.cream,
+              border: `1px solid ${COLORS.border}`,
+              borderRadius: 9999,
+              color: COLORS.dark,
+              fontFamily: "Gowun Dodum, serif",
+              fontWeight: 500,
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              boxShadow: "0 2px 8px rgba(61,48,40,0.1)",
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-around",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
-              border: "1px solid rgba(192,211,180,0.25)",
+              gap: 6,
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLButtonElement;
+              el.style.background = COLORS.card;
+              el.style.boxShadow = "0 4px 12px rgba(61,48,40,0.2)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLButtonElement;
+              el.style.background = COLORS.cream;
+              el.style.boxShadow = "0 2px 8px rgba(61,48,40,0.1)";
             }}
           >
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 4,
-                  padding: "6px 4px",
-                  textDecoration: "none",
-                  color: WARM_GOLD,
-                }}
-              >
-                <item.Icon size={17} strokeWidth={1.5} color={WARM_GOLD} />
-                <span
-                  style={{
-                    fontSize: "0.58rem",
-                    letterSpacing: "0.02em",
-                    fontFamily: "Gowun Dodum, serif",
-                    color: WARM_GOLD,
-                  }}
-                >
-                  {item.label}
-                </span>
-              </a>
-            ))}
-            <button
-              onClick={handleShare}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 4,
-                padding: "6px 4px",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                color: COLORS.gold,
-              }}
-            >
-              <Share2 size={17} strokeWidth={1.5} color={COLORS.gold} />
-              <span
-                style={{
-                  fontSize: "0.58rem",
-                  letterSpacing: "0.02em",
-                  fontFamily: "Gowun Dodum, serif",
-                  color: COLORS.gold,
-                }}
-              >
-                공유
-              </span>
-            </button>
-          </div>
+            <span style={{ fontSize: "1.1em", fontWeight: 700, lineHeight: 1 }}>
+              {isEnlarged ? "가" : "가"}
+              <sup style={{ fontSize: "0.6em", verticalAlign: "super" }}>
+                {isEnlarged ? "−" : "+"}
+              </sup>
+            </span>
+            {isEnlarged ? "작은 글씨" : "큰 글씨"}
+          </button>
         </motion.div>
       )}
     </AnimatePresence>
@@ -146,6 +107,7 @@ function FloatingNav({ show }: { show: boolean }) {
 export default function Home() {
   const [showOpening, setShowOpening] = useState(true);
   const [showNav, setShowNav] = useState(false);
+  const [fontSize, setFontSize] = useState(1);
 
   useEffect(() => {
     if (showOpening) return;
@@ -155,6 +117,13 @@ export default function Home() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, [showOpening]);
+
+  useEffect(() => {
+    document.documentElement.style.fontSize = `${fontSize * 16}px`;
+    return () => {
+      document.documentElement.style.fontSize = "";
+    };
+  }, [fontSize]);
 
   return (
     <div
@@ -178,7 +147,7 @@ export default function Home() {
           maxWidth: 430,
           margin: "0 auto",
           overflowX: "hidden",
-          paddingBottom: 100,
+          paddingBottom: "calc(100px + env(safe-area-inset-bottom, 0px))",
         }}
       >
         <HeroSection />
@@ -316,7 +285,11 @@ export default function Home() {
       </main>
 
       {/* Floating Nav */}
-      <FloatingNav show={!showOpening && showNav} />
+      <FloatingNav
+        show={!showOpening && showNav}
+        fontSize={fontSize}
+        onFontSizeChange={setFontSize}
+      />
     </div>
   );
 }

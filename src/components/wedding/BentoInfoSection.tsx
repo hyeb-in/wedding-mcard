@@ -103,20 +103,12 @@ export function BentoInfoSection() {
             value={WEDDING_INFO.timeStr}
           />
 
-          {/* Meal */}
-          <BentoCard
-            icon={<UtensilsCrossed size={16} />}
-            label="MEAL"
-            value={WEDDING_INFO.meal}
-          />
-
           {/* Venue - wide */}
           <BentoCard
             icon={<MapPin size={16} />}
             label="VENUE"
             value={WEDDING_INFO.venue}
             sub={`${WEDDING_INFO.venueDetail} · ${WEDDING_INFO.address}`}
-            wide
           />
         </div>
 
