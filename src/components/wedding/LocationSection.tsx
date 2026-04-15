@@ -5,9 +5,6 @@ import { MapPin, Navigation, Car, Train } from "lucide-react";
 import { SectionWrapper, SectionTitle, COLORS } from "./SectionWrapper";
 import { WEDDING_INFO } from "./weddingData";
 
-const VENUE_IMG =
-  "https://images.unsplash.com/photo-1763553113332-800519753e40?w=800&q=80";
-
 interface TransportCardProps {
   icon: ReactNode;
   title: string;
@@ -54,56 +51,6 @@ export function LocationSection() {
     <SectionWrapper>
       <div style={{ padding: "48px 16px", background: COLORS.cream }}>
         <SectionTitle ko="오시는 길" en="LOCATION" />
-
-        {/* Venue Image */}
-        <div
-          style={{
-            borderRadius: 20,
-            overflow: "hidden",
-            height: 200,
-            marginBottom: 20,
-            position: "relative",
-            boxShadow: "0 4px 24px rgba(61,48,40,0.1)",
-          }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={VENUE_IMG}
-            alt="Wedding Venue"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(to top, rgba(30,18,12,0.6), transparent)",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-end",
-              padding: 16,
-            }}
-          >
-            <p
-              style={{
-                color: "#FDF8F3",
-                fontFamily: "Gowun Dodum, serif",
-                fontSize: "1rem",
-              }}
-            >
-              {WEDDING_INFO.venue}
-            </p>
-            <p
-              style={{
-                color: "rgba(253,248,243,0.75)",
-                fontSize: "0.75rem",
-                marginTop: 4,
-              }}
-            >
-              {WEDDING_INFO.venueDetail}
-            </p>
-          </div>
-        </div>
 
         {/* Address */}
         <div

@@ -110,6 +110,14 @@ export default function Home() {
   const [fontSize, setFontSize] = useState(1);
 
   useEffect(() => {
+    const preventZoom = (e: TouchEvent) => {
+      if (e.touches.length > 1) e.preventDefault();
+    };
+    document.addEventListener("touchmove", preventZoom, { passive: false });
+    return () => document.removeEventListener("touchmove", preventZoom);
+  }, []);
+
+  useEffect(() => {
     if (showOpening) return;
     const onScroll = () => {
       setShowNav(window.scrollY > window.innerHeight * 0.5);
