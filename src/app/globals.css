@@ -13,16 +13,15 @@ body {
 
 * {
   box-sizing: border-box;
-  touch-action: pan-x pan-y;
+  touch-action: pan-x pan-y !important;
 }
 
 html {
   scroll-behavior: smooth;
-  touch-action: pan-x pan-y;
 }
 
 body {
-  touch-action: pan-x pan-y;
+  touch-action: pan-x pan-y !important;
 }
 
 /* Grain texture overlay */
