@@ -47,6 +47,7 @@ export const WEDDING_INFO = {
 const BLOB = process.env.NEXT_PUBLIC_BLOB_BASE_URL;
 
 export const PHOTOS = [
+  { src: `${BLOB}/main.jpg` },
   { src: `${BLOB}/1.jpg` },
   { src: `${BLOB}/2.jpg` },
   { src: `${BLOB}/3.jpg` },
