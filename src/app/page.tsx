@@ -258,10 +258,10 @@ export default function Home() {
           <AccountSection />
         </section>
 
-        {/* RSVP */}
-        <section id="rsvp">
+        {/* RSVP 추후 추가*/}
+        {/* <section id="rsvp">
           <RSVPSection />
-        </section>
+        </section> */}
 
         {/* Contact */}
         <section id="contact">
