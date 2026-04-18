@@ -69,6 +69,7 @@ function BentoCard({ icon, label, value, sub, wide, accent }: BentoCardProps) {
             fontSize: "0.75rem",
             color: COLORS.mid,
             fontFamily: "Gowun Dodum, serif",
+            whiteSpace: "pre-line",
           }}
         >
           {sub}
@@ -108,7 +109,7 @@ export function BentoInfoSection() {
             icon={<MapPin size={16} />}
             label="VENUE"
             value={WEDDING_INFO.venue}
-            sub={`${WEDDING_INFO.venueDetail} · ${WEDDING_INFO.address}`}
+            sub={`${WEDDING_INFO.venueDetail}\n${WEDDING_INFO.address}`}
           />
         </div>
 
