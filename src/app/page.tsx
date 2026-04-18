@@ -2,14 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  Share2,
-  CalendarDays,
-  ImageIcon,
-  MapPin,
-  CheckSquare,
-  BookOpen,
-} from "lucide-react";
 
 import { OpeningAnimation } from "@/components/wedding/OpeningAnimation";
 import { HeroSection } from "@/components/wedding/HeroSection";
@@ -19,19 +11,10 @@ import { PhotoGallery } from "@/components/wedding/PhotoGallery";
 import { LocationSection } from "@/components/wedding/LocationSection";
 import { AccountSection } from "@/components/wedding/AccountSection";
 import { RSVPSection } from "@/components/wedding/RSVPSection";
-import { GuestbookSection } from "@/components/wedding/GuestbookSection";
 import { ContactSection } from "@/components/wedding/ContactSection";
 import { COLORS } from "@/components/wedding/SectionWrapper";
 
 const WARM_GOLD = "rgba(192,211,180,0.9)";
-
-const NAV_ITEMS = [
-  { label: "정보", href: "#info", Icon: CalendarDays },
-  { label: "갤러리", href: "#gallery", Icon: ImageIcon },
-  { label: "오시는길", href: "#location", Icon: MapPin },
-  { label: "RSVP", href: "#rsvp", Icon: CheckSquare },
-  { label: "방명록", href: "#guestbook", Icon: BookOpen },
-];
 
 function FloatingNav({
   show,
@@ -278,11 +261,6 @@ export default function Home() {
         {/* RSVP */}
         <section id="rsvp">
           <RSVPSection />
-        </section>
-
-        {/* Guestbook */}
-        <section id="guestbook">
-          <GuestbookSection />
         </section>
 
         {/* Contact */}
