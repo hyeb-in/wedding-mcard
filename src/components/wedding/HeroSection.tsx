@@ -34,7 +34,7 @@ export function HeroSection() {
           src={HERO_IMG}
           alt="Wedding"
           className="w-full h-full object-cover"
-          style={{ height: "130%", marginTop: "-15%" }}
+          style={{ height: "130%", marginTop: "-15%", objectPosition: "top center" }}
         />
         {/* Overlay */}
         <div
@@ -79,7 +79,7 @@ export function HeroSection() {
               fontFamily: "Noto Serif KR, serif",
               fontWeight: 300,
               color: "#FDF8F3",
-              fontSize: "2.6rem",
+              fontSize: "1.3rem",
               letterSpacing: "0.2em",
               lineHeight: 1.2,
               textShadow:
@@ -110,7 +110,7 @@ export function HeroSection() {
               fontFamily: "Noto Serif KR, serif",
               fontWeight: 300,
               color: "#FDF8F3",
-              fontSize: "2.6rem",
+              fontSize: "1.3rem",
               letterSpacing: "0.2em",
               lineHeight: 1.2,
               textShadow:
