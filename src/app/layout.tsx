@@ -4,6 +4,15 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "김우혁 ♥ 노현정 결혼합니다",
   description: "2026년 6월 6일 토요일 오후 2시 · 더 링크 서울 웨딩홀",
+  metadataBase: new URL("https://wedding-mcard.vercel.app"),
+  openGraph: {
+    title: "김우혁 ♥ 노현정 결혼합니다",
+    description: "2026년 6월 6일 토요일 오후 2시 · 더 링크 서울 웨딩홀",
+    url: "https://wedding-mcard.vercel.app",
+    siteName: "김우혁 ♥ 노현정 결혼합니다",
+    locale: "ko_KR",
+    type: "website",
+  },
 };
 
 export const viewport: Viewport = {

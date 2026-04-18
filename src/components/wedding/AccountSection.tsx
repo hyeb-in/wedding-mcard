@@ -195,6 +195,26 @@ export function AccountSection() {
                   holder={WEDDING_INFO.groom.holder}
                   color={COLORS.rose}
                 />
+                {WEDDING_INFO.groom.fatherAccount && (
+                  <AccountCard
+                    role="신랑 아버지"
+                    name={WEDDING_INFO.groom.fatherName}
+                    bank={WEDDING_INFO.groom.fatherBank}
+                    account={WEDDING_INFO.groom.fatherAccount}
+                    holder={WEDDING_INFO.groom.fatherName}
+                    color={COLORS.rose}
+                  />
+                )}
+                {WEDDING_INFO.groom.motherAccount && (
+                  <AccountCard
+                    role="신랑 어머니"
+                    name={WEDDING_INFO.groom.motherName}
+                    bank={WEDDING_INFO.groom.motherBank}
+                    account={WEDDING_INFO.groom.motherAccount}
+                    holder={WEDDING_INFO.groom.motherName}
+                    color={COLORS.rose}
+                  />
+                )}
 
                 <p
                   style={{
@@ -218,6 +238,26 @@ export function AccountSection() {
                   holder={WEDDING_INFO.bride.holder}
                   color={COLORS.sage}
                 />
+                {WEDDING_INFO.bride.fatherAccount && (
+                  <AccountCard
+                    role="신부 아버지"
+                    name={WEDDING_INFO.bride.fatherName}
+                    bank={WEDDING_INFO.bride.fatherBank}
+                    account={WEDDING_INFO.bride.fatherAccount}
+                    holder={WEDDING_INFO.bride.fatherName}
+                    color={COLORS.sage}
+                  />
+                )}
+                {WEDDING_INFO.bride.motherAccount && (
+                  <AccountCard
+                    role="신부 어머니"
+                    name={WEDDING_INFO.bride.motherName}
+                    bank={WEDDING_INFO.bride.motherBank}
+                    account={WEDDING_INFO.bride.motherAccount}
+                    holder={WEDDING_INFO.bride.motherName}
+                    color={COLORS.sage}
+                  />
+                )}
               </div>
             </motion.div>
           )}
