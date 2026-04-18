@@ -112,41 +112,6 @@ export function BentoInfoSection() {
             sub={`${WEDDING_INFO.venueDetail}\n${WEDDING_INFO.address}`}
           />
         </div>
-
-        {/* Divider message */}
-        <div
-          className="text-center mt-8"
-          style={{
-            padding: "20px",
-            background: COLORS.cream,
-            borderRadius: 16,
-            border: `1px solid ${COLORS.border}`,
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "Cormorant Garamond, serif",
-              fontStyle: "italic",
-              color: COLORS.mid,
-              lineHeight: 1.8,
-              fontSize: "0.92rem",
-            }}
-          >
-            &quot;서로 다른 두 사람이 만나,
-            <br />
-            하나의 아름다운 이야기를 시작합니다.&quot;
-          </p>
-          <p
-            style={{
-              fontSize: "0.7rem",
-              color: COLORS.gold,
-              marginTop: 8,
-              letterSpacing: "0.15em",
-            }}
-          >
-            2026 · 06 · 06
-          </p>
-        </div>
       </div>
     </SectionWrapper>
   );
