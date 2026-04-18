@@ -19,12 +19,12 @@ export function HeroSection() {
     <div
       ref={ref}
       className="relative overflow-hidden"
-      style={{ height: "50svh", minHeight: 300 }}
+      style={{ minHeight: "100svh" }}
     >
       {/* Parallax bg image */}
       <motion.div
         style={{ y }}
-        className="absolute inset-0 w-full"
+        className="absolute inset-0 w-full h-full"
         initial={{ scale: 1.1 }}
         animate={{ scale: 1 }}
         transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
@@ -33,8 +33,7 @@ export function HeroSection() {
         <img
           src={HERO_IMG}
           alt="Wedding"
-          className="w-full h-full object-cover"
-          style={{ height: "130%", marginTop: "-15%", objectPosition: "top center" }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }}
         />
         {/* Overlay */}
         <div
