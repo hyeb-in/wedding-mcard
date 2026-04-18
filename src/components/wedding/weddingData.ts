@@ -44,26 +44,24 @@ export const WEDDING_INFO = {
   },
 };
 
-export const PHOTOS = [
-  {
-    src: "https://images.unsplash.com/photo-1769415244729-ce85690aebb1?w=600&q=80",
+const BLOB = process.env.NEXT_PUBLIC_BLOB_BASE_URL;
 
-    rotation: -3,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1769050350292-f990b8fc9e3b?w=600&q=80",
-    rotation: 2,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1772868357202-347e1f8ae16e?w=600&q=80",
-    rotation: -1.5,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1768777273037-aa1cbd2afa08?w=600&q=80",
-    rotation: 3,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1751552272702-1cd0fd2db2fe?w=600&q=80",
-    rotation: -2,
-  },
+export const PHOTOS = [
+  { src: `${BLOB}/1.jpg` },
+  { src: `${BLOB}/2.jpg` },
+  { src: `${BLOB}/3.jpg` },
+  { src: `${BLOB}/4.jpg` },
+  { src: `${BLOB}/5.jpg` },
+  { src: `${BLOB}/6.jpg` },
+  { src: `${BLOB}/7.jpg` },
+  { src: `${BLOB}/8.jpg` },
+  { src: `${BLOB}/9.jpg` },
+  { src: `${BLOB}/10.jpg` },
+  { src: `${BLOB}/11.jpg` },
+  { src: `${BLOB}/12.jpg` },
+  { src: `${BLOB}/13.jpg` },
+  { src: `${BLOB}/14.jpg` },
+  { src: `${BLOB}/15.jpg` },
+  { src: `${BLOB}/16.jpg` },
+  { src: `${BLOB}/17.jpg` },
 ];

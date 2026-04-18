@@ -4,8 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { COLORS } from "./SectionWrapper";
 
-const HERO_IMG =
-  "https://images.unsplash.com/photo-1769540209510-ec7f53f1ef21?w=900&q=80";
+const HERO_IMG = `${process.env.NEXT_PUBLIC_BLOB_BASE_URL}/main.jpg`;
 
 export function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
