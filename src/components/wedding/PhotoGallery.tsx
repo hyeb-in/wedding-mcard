@@ -5,6 +5,10 @@ import { SectionWrapper, SectionTitle } from "./SectionWrapper";
 import { PHOTOS } from "./weddingData";
 import { useState, useEffect } from "react";
 
+function thumbUrl(src: string) {
+  return `/_next/image?url=${encodeURIComponent(src)}&w=300&q=70`;
+}
+
 export function PhotoGallery() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState(0);
@@ -72,7 +76,7 @@ export function PhotoGallery() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={photo.src}
+                src={thumbUrl(photo.src)}
                 alt=""
                 loading="lazy"
                 decoding="async"
