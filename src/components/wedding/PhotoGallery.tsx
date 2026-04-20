@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SectionWrapper, SectionTitle } from "./SectionWrapper";
 import { PHOTOS } from "./weddingData";
 import { useState, useEffect } from "react";
-import { COLORS } from "./SectionWrapper";
 
 export function PhotoGallery() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -75,6 +74,8 @@ export function PhotoGallery() {
               <img
                 src={photo.src}
                 alt=""
+                loading="lazy"
+                decoding="async"
                 style={{
                   width: "100%",
                   height: "100%",

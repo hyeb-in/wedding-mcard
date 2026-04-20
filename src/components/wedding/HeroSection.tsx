@@ -33,6 +33,9 @@ export function HeroSection() {
         <img
           src={HERO_IMG}
           alt="Wedding"
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
           style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }}
         />
         {/* Overlay */}

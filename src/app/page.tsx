@@ -3,18 +3,18 @@
 import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
+import dynamic from "next/dynamic";
 import { OpeningAnimation } from "@/components/wedding/OpeningAnimation";
 import { HeroSection } from "@/components/wedding/HeroSection";
-import { CountdownSection } from "@/components/wedding/CountdownSection";
-import { BentoInfoSection } from "@/components/wedding/BentoInfoSection";
-import { PhotoGallery } from "@/components/wedding/PhotoGallery";
-import { LocationSection } from "@/components/wedding/LocationSection";
-import { AccountSection } from "@/components/wedding/AccountSection";
-import { RSVPSection } from "@/components/wedding/RSVPSection";
-import { ContactSection } from "@/components/wedding/ContactSection";
 import { COLORS } from "@/components/wedding/SectionWrapper";
 
-const WARM_GOLD = "rgba(192,211,180,0.9)";
+const CountdownSection = dynamic(() => import("@/components/wedding/CountdownSection").then(m => ({ default: m.CountdownSection })));
+const BentoInfoSection = dynamic(() => import("@/components/wedding/BentoInfoSection").then(m => ({ default: m.BentoInfoSection })));
+const PhotoGallery = dynamic(() => import("@/components/wedding/PhotoGallery").then(m => ({ default: m.PhotoGallery })));
+const LocationSection = dynamic(() => import("@/components/wedding/LocationSection").then(m => ({ default: m.LocationSection })));
+const AccountSection = dynamic(() => import("@/components/wedding/AccountSection").then(m => ({ default: m.AccountSection })));
+const ContactSection = dynamic(() => import("@/components/wedding/ContactSection").then(m => ({ default: m.ContactSection })));
+
 
 function FloatingNav({
   show,
@@ -100,7 +100,7 @@ export default function Home() {
     const onScroll = () => {
       setShowNav(container.scrollTop > window.innerHeight * 0.5);
     };
-    container.addEventListener("scroll", onScroll);
+    container.addEventListener("scroll", onScroll, { passive: true });
     return () => container.removeEventListener("scroll", onScroll);
   }, [showOpening]);
 
