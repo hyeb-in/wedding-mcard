@@ -6,7 +6,7 @@ import { PHOTOS } from "./weddingData";
 import { useState, useEffect } from "react";
 
 function thumbUrl(src: string) {
-  return `/_next/image?url=${encodeURIComponent(src)}&w=300&q=70`;
+  return `/_next/image?url=${encodeURIComponent(src)}&w=384&q=70`;
 }
 
 export function PhotoGallery() {
