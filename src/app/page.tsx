@@ -8,13 +8,46 @@ import { OpeningAnimation } from "@/components/wedding/OpeningAnimation";
 import { HeroSection } from "@/components/wedding/HeroSection";
 import { COLORS } from "@/components/wedding/SectionWrapper";
 
-const CountdownSection = dynamic(() => import("@/components/wedding/CountdownSection").then(m => ({ default: m.CountdownSection })));
-const BentoInfoSection = dynamic(() => import("@/components/wedding/BentoInfoSection").then(m => ({ default: m.BentoInfoSection })));
-const PhotoGallery = dynamic(() => import("@/components/wedding/PhotoGallery").then(m => ({ default: m.PhotoGallery })));
-const LocationSection = dynamic(() => import("@/components/wedding/LocationSection").then(m => ({ default: m.LocationSection })));
-const AccountSection = dynamic(() => import("@/components/wedding/AccountSection").then(m => ({ default: m.AccountSection })));
-const ContactSection = dynamic(() => import("@/components/wedding/ContactSection").then(m => ({ default: m.ContactSection })));
-
+const CountdownSection = dynamic(() =>
+  import("@/components/wedding/CountdownSection").then((m) => ({
+    default: m.CountdownSection,
+  })),
+);
+const BentoInfoSection = dynamic(() =>
+  import("@/components/wedding/BentoInfoSection").then((m) => ({
+    default: m.BentoInfoSection,
+  })),
+);
+const PhotoGallery = dynamic(() =>
+  import("@/components/wedding/PhotoGallery").then((m) => ({
+    default: m.PhotoGallery,
+  })),
+);
+const LocationSection = dynamic(() =>
+  import("@/components/wedding/LocationSection").then((m) => ({
+    default: m.LocationSection,
+  })),
+);
+const AccountSection = dynamic(() =>
+  import("@/components/wedding/AccountSection").then((m) => ({
+    default: m.AccountSection,
+  })),
+);
+const RSVPSection = dynamic(() =>
+  import("@/components/wedding/RSVPSection").then((m) => ({
+    default: m.RSVPSection,
+  })),
+);
+const GuestPhotoUpload = dynamic(() =>
+  import("@/components/wedding/GuestPhotoUpload").then((m) => ({
+    default: m.GuestPhotoUpload,
+  })),
+);
+const ContactSection = dynamic(() =>
+  import("@/components/wedding/ContactSection").then((m) => ({
+    default: m.ContactSection,
+  })),
+);
 
 function FloatingNav({
   show,
@@ -175,11 +208,15 @@ export default function Home() {
               letterSpacing: "0.05em",
             }}
           >
-            서로에게 가장 소중한 사람이
+            지난 10년 동안
             <br />
-            되어주겠다 약속한 두 사람이
+            서로에게 나무 같은 쉼이,
             <br />
-            이제 하나의 가정을 이루려 합니다.
+            태양 같은 온기가 되어준 사람과
+            <br />
+            이제 평생을 함께하려 합니다.
+            <br />
+            귀한 걸음으로 축복해주시면 감사하겠습니다.
           </p>
           <div
             style={{
@@ -258,10 +295,15 @@ export default function Home() {
           <AccountSection />
         </section>
 
-        {/* RSVP 추후 추가*/}
-        {/* <section id="rsvp">
+        {/* RSVP */}
+        <section id="rsvp">
           <RSVPSection />
-        </section> */}
+        </section>
+
+        {/* Guest Photos */}
+        <section id="guest-photos">
+          <GuestPhotoUpload />
+        </section>
 
         {/* Contact */}
         <section id="contact">

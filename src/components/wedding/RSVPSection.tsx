@@ -64,9 +64,10 @@ function RadioOption({
         flex: 1,
         padding: "12px 8px",
         borderRadius: 12,
-        border: `1.5px solid ${selected ? COLORS.rose : COLORS.border}`,
-        background: selected ? `${COLORS.rose}12` : COLORS.card,
-        color: selected ? COLORS.rose : COLORS.mid,
+        border: `2px solid ${selected ? COLORS.sage : COLORS.border}`,
+        background: selected ? `${COLORS.sage}35` : COLORS.card,
+        color: selected ? "#5a8a5a" : COLORS.mid,
+        boxShadow: selected ? "0 2px 8px rgba(192,211,180,0.4)" : "none",
         fontFamily: "Gowun Dodum, serif",
         fontSize: "0.82rem",
         cursor: "pointer",
@@ -85,12 +86,10 @@ function RadioOption({
 
 function MealOption({
   label,
-  value,
   selected,
   onClick,
 }: {
   label: string;
-  value: string;
   selected: boolean;
   onClick: () => void;
 }) {
@@ -156,7 +155,7 @@ export function RSVPSection() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.name.trim()) {
       setError("성함을 입력해주세요.");
       return;
@@ -172,22 +171,27 @@ export function RSVPSection() {
     setError("");
     setLoading(true);
 
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "제출에 실패했습니다.");
+        setLoading(false);
+        return;
+      }
       setLoading(false);
       setSubmitted(true);
       if (form.status === "yes") {
         setTimeout(fireConfetti, 200);
       }
-      try {
-        const existing = JSON.parse(
-          localStorage.getItem("wedding_rsvp") || "[]",
-        );
-        existing.push({ ...form, date: new Date().toISOString() });
-        localStorage.setItem("wedding_rsvp", JSON.stringify(existing));
-      } catch {
-        // ignore storage errors
-      }
-    }, 800);
+    } catch {
+      setError("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -214,12 +218,10 @@ export function RSVPSection() {
                 justifyContent: "center",
               }}
             >
-              {form.status === "yes" ? (
-                <CheckCircle2 size={48} style={{ color: COLORS.sage }} />
-              ) : form.status === "no" ? (
-                <XCircle size={48} style={{ color: COLORS.mid }} />
-              ) : (
+              {form.status === "maybe" ? (
                 <HelpCircle size={48} style={{ color: COLORS.gold }} />
+              ) : (
+                <CheckCircle2 size={48} style={{ color: COLORS.sage }} />
               )}
             </div>
             <h3
@@ -233,7 +235,7 @@ export function RSVPSection() {
               {form.status === "yes"
                 ? "참석해 주셔서 감사합니다!"
                 : form.status === "no"
-                  ? "아쉽지만 마음 감사해요"
+                  ? "답변 감사합니다"
                   : "편하실 때 다시 알려주세요"}
             </h3>
             <p
@@ -415,13 +417,11 @@ export function RSVPSection() {
                     <div style={{ display: "flex", gap: 8 }}>
                       <MealOption
                         label="식사함"
-                        value="yes"
                         selected={form.meal === "yes"}
                         onClick={() => setForm({ ...form, meal: "yes" })}
                       />
                       <MealOption
                         label="식사 안함"
-                        value="no"
                         selected={form.meal === "no"}
                         onClick={() => setForm({ ...form, meal: "no" })}
                       />
