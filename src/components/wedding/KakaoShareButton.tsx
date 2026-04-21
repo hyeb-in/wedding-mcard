@@ -1,11 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { WEDDING_INFO } from "./weddingData";
-
 const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY ?? "";
 const SITE_URL = "https://wedding-mcard.vercel.app";
-const MAP_URL = "https://map.kakao.com/link/search/더 링크 서울";
 
 declare global {
   interface Window {
@@ -27,31 +24,8 @@ function initKakao() {
 
 function shareKakao() {
   initKakao();
-  if (!window.Kakao?.Share) {
-    alert("카카오톡 공유 기능을 불러오는 중입니다. 잠시 후 다시 눌러주세요.");
-    return;
-  }
-  window.Kakao.Share.sendScrap({
-    requestUrl: SITE_URL,
-    templateTitle: `${WEDDING_INFO.groomName} ♥ ${WEDDING_INFO.brideName} 결혼합니다`,
-    templateDescription: `${WEDDING_INFO.dateStr} ${WEDDING_INFO.timeStr} · ${WEDDING_INFO.venue} ${WEDDING_INFO.venueDetail}`,
-    buttons: [
-      {
-        title: "청첩장 보기",
-        link: {
-          mobileWebUrl: SITE_URL,
-          webUrl: SITE_URL,
-        },
-      },
-      {
-        title: "위치 안내",
-        link: {
-          mobileWebUrl: MAP_URL,
-          webUrl: MAP_URL,
-        },
-      },
-    ],
-  });
+  if (!window.Kakao?.Share) return;
+  window.Kakao.Share.sendScrap({ requestUrl: SITE_URL });
 }
 
 export function KakaoShareButton() {
