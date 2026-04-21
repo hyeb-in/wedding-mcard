@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
+import { WEDDING_INFO } from "./weddingData";
+
 const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY ?? "";
 const SITE_URL = "https://wedding-mcard.vercel.app";
+const IMAGE_URL = `${process.env.NEXT_PUBLIC_BLOB_BASE_URL}/main.jpg`;
 
 declare global {
   interface Window {
@@ -10,7 +13,7 @@ declare global {
       init: (key: string) => void;
       isInitialized: () => boolean;
       Share: {
-        sendScrap: (options: object) => void;
+        sendDefault: (options: object) => void;
       };
     };
   }
@@ -25,7 +28,27 @@ function initKakao() {
 function shareKakao() {
   initKakao();
   if (!window.Kakao?.Share) return;
-  window.Kakao.Share.sendScrap({ requestUrl: SITE_URL });
+  window.Kakao.Share.sendDefault({
+    objectType: "feed",
+    content: {
+      title: `${WEDDING_INFO.groomName} ♥ ${WEDDING_INFO.brideName} 결혼합니다`,
+      description: `${WEDDING_INFO.dateStr} ${WEDDING_INFO.timeStr} · ${WEDDING_INFO.venue} ${WEDDING_INFO.venueDetail}`,
+      imageUrl: IMAGE_URL,
+      link: {
+        mobileWebUrl: SITE_URL,
+        webUrl: SITE_URL,
+      },
+    },
+    buttons: [
+      {
+        title: "청첩장 보기",
+        link: {
+          mobileWebUrl: SITE_URL,
+          webUrl: SITE_URL,
+        },
+      },
+    ],
+  });
 }
 
 export function KakaoShareButton() {
