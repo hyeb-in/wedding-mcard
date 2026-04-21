@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { SectionWrapper, SectionTitle, COLORS } from "./SectionWrapper";
-import { Calendar, Clock, MapPin, UtensilsCrossed } from "lucide-react";
+import { Calendar, Clock, MapPin } from "lucide-react";
 import { WEDDING_INFO } from "./weddingData";
 
 interface BentoCardProps {

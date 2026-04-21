@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { COLORS } from "./SectionWrapper";
 
 const HERO_IMG = `${process.env.NEXT_PUBLIC_BLOB_BASE_URL}/main.jpg`;
 
@@ -170,6 +169,3 @@ export function HeroSection() {
     </div>
   );
 }
-
-// re-export COLORS for convenience
-export { COLORS };
