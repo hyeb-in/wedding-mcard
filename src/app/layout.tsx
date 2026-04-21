@@ -12,6 +12,14 @@ export const metadata: Metadata = {
     siteName: "김우혁 ♥ 노현정 결혼합니다",
     locale: "ko_KR",
     type: "website",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_BLOB_BASE_URL}/main.jpg`,
+        width: 800,
+        height: 1200,
+        alt: "김우혁 ♥ 노현정 결혼합니다",
+      },
+    ],
   },
 };
 

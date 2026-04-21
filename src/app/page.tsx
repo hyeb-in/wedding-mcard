@@ -48,6 +48,11 @@ const ContactSection = dynamic(() =>
     default: m.ContactSection,
   })),
 );
+const KakaoShareButton = dynamic(() =>
+  import("@/components/wedding/KakaoShareButton").then((m) => ({
+    default: m.KakaoShareButton,
+  })),
+);
 
 function FloatingNav({
   show,
@@ -305,6 +310,11 @@ export default function Home() {
         <section id="contact">
           <ContactSection />
         </section>
+
+        {/* Kakao Share */}
+        <div style={{ display: "flex", justifyContent: "center", padding: "12px 0 8px" }}>
+          <KakaoShareButton />
+        </div>
       </main>
 
       {/* Floating Nav */}
