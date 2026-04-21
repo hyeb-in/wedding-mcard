@@ -99,13 +99,14 @@ function MealOption({
       onClick={onClick}
       style={{
         flex: 1,
-        padding: "10px 8px",
-        borderRadius: 10,
-        border: `1.5px solid ${selected ? COLORS.sage : COLORS.border}`,
-        background: selected ? `${COLORS.sage}15` : COLORS.card,
-        color: selected ? COLORS.sage : COLORS.mid,
+        padding: "12px 8px",
+        borderRadius: 12,
+        border: `2px solid ${selected ? COLORS.sage : COLORS.border}`,
+        background: selected ? `${COLORS.sage}35` : COLORS.card,
+        color: selected ? "#5a8a5a" : COLORS.mid,
+        boxShadow: selected ? "0 2px 8px rgba(192,211,180,0.4)" : "none",
         fontFamily: "Gowun Dodum, serif",
-        fontSize: "0.8rem",
+        fontSize: "0.82rem",
         cursor: "pointer",
         transition: "all 0.2s",
       }}
