@@ -234,11 +234,7 @@ export default function Home() {
               fontFamily: "Noto Serif KR, serif",
               fontWeight: 300,
             }}
-          >
-            바쁘신 중에도 오셔서
-            <br />
-            축복해 주시면 더없는 기쁨이 되겠습니다.
-          </p>
+          ></p>
 
           <div style={{ marginTop: 28 }}>
             <p
