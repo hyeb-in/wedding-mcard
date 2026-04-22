@@ -171,7 +171,7 @@ export function OpeningAnimation({ onEnter }: OpeningAnimationProps) {
               fontFamily: "Noto Serif KR, serif",
               fontWeight: 300,
               color: "#2C3E2C",
-              fontSize: "clamp(1.6rem, 5.5vw, 2.2rem)",
+              fontSize: "7.5vw",
               letterSpacing: "0.1em",
               lineHeight: 1.3,
               textShadow: "0 2px 16px rgba(140,200,100,0.5)",
@@ -180,7 +180,7 @@ export function OpeningAnimation({ onEnter }: OpeningAnimationProps) {
           >
             김우혁
             <span
-              style={{ color: "#C0D3B4", margin: "0 10px", fontSize: "clamp(1.2rem, 4vw, 1.6rem)" }}
+              style={{ color: "#C0D3B4", margin: "0 10px", fontSize: "5.5vw" }}
             >
               ♥
             </span>
