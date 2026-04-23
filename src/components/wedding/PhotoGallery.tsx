@@ -72,7 +72,7 @@ export function PhotoGallery() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={photo.thumb}
+                src={photo}
                 alt=""
                 loading="lazy"
                 decoding="async"
@@ -151,7 +151,7 @@ export function PhotoGallery() {
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={PHOTOS[lightboxIndex].src}
+                    src={PHOTOS[lightboxIndex]}
                     alt=""
                     draggable={false}
                     style={{
