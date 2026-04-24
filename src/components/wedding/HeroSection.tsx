@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
-const HERO_IMG = `${process.env.NEXT_PUBLIC_BLOB_BASE_URL}/main.jpg`;
+const HERO_IMG = `${process.env.NEXT_PUBLIC_BLOB_BASE_URL}/main.webp`;
 
 export function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
