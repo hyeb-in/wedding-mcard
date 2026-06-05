@@ -2,11 +2,24 @@
 
 import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import imageCompression from "browser-image-compression";
 import { SectionWrapper, SectionTitle, COLORS } from "./SectionWrapper";
 import { ImagePlus, CheckCircle2, AlertCircle, X, Upload } from "lucide-react";
 
 const MAX_FILES = 30;
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+const COMPRESS_THRESHOLD = 4.4 * 1024 * 1024; // 4.4MB 이상이면 압축 (Vercel 4.5MB 요청 제한 회피)
+
+// 4.4MB 이상 사진만 WebP·4MB 목표로 최소 압축. 그 미만은 원본 그대로 업로드.
+async function compressIfNeeded(file: File): Promise<File> {
+  if (file.size < COMPRESS_THRESHOLD) return file;
+  return imageCompression(file, {
+    maxSizeMB: 4,
+    fileType: "image/webp",
+    initialQuality: 0.92,
+    useWebWorker: true,
+  });
+}
 
 interface FileItem {
   id: string;
@@ -39,6 +52,7 @@ export function GuestPhotoUpload() {
     }));
 
     setFiles((prev) => [...prev, ...items].slice(0, MAX_FILES));
+    setDone(false);
   }, [files.length]);
 
   const removeFile = (id: string) => {
@@ -62,8 +76,12 @@ export function GuestPhotoUpload() {
         prev.map((f) => f.id === item.id ? { ...f, status: "uploading" } : f)
       );
       try {
+        const fileToUpload = await compressIfNeeded(item.file);
+        const uploadName = fileToUpload.type === "image/webp"
+          ? item.file.name.replace(/\.[^.]+$/, ".webp")
+          : item.file.name;
         const formData = new FormData();
-        formData.append("file", item.file);
+        formData.append("file", fileToUpload, uploadName);
         const res = await fetch("/api/upload-photo", { method: "POST", body: formData });
         const data = await res.json();
         setFiles((prev) =>
@@ -97,53 +115,12 @@ export function GuestPhotoUpload() {
     addFiles(Array.from(e.dataTransfer.files));
   };
 
-  if (done && errorCount === 0 && pendingCount === 0) {
-    return (
-      <SectionWrapper>
-        <div style={{ padding: "48px 16px" }}>
-          <SectionTitle ko="사진 공유" en="GUEST PHOTOS" />
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              background: COLORS.cream,
-              borderRadius: 24,
-              padding: "40px 24px",
-              textAlign: "center",
-              border: `1px solid ${COLORS.border}`,
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
-              <CheckCircle2 size={48} style={{ color: COLORS.sage }} />
-            </div>
-            <h3 style={{ color: COLORS.dark, fontFamily: "Gowun Dodum, serif", fontSize: "1.1rem", marginBottom: 8 }}>
-              사진이 전달되었습니다!
-            </h3>
-            <p style={{ color: COLORS.mid, fontSize: "0.85rem", lineHeight: 1.7 }}>
-              {uploadedCount}장의 사진을 보내주셔서 감사해요 ✨
-            </p>
-            <button
-              onClick={() => { setFiles([]); setDone(false); }}
-              style={{
-                marginTop: 20,
-                padding: "10px 24px",
-                borderRadius: 100,
-                border: `1px solid ${COLORS.border}`,
-                background: "transparent",
-                color: COLORS.mid,
-                fontFamily: "Gowun Dodum, serif",
-                fontSize: "0.8rem",
-                cursor: "pointer",
-              }}
-            >
-              더 올리기
-            </button>
-          </motion.div>
-        </div>
-      </SectionWrapper>
-    );
-  }
+  const addMore = () => {
+    files.forEach((f) => URL.revokeObjectURL(f.preview));
+    setFiles([]);
+    setDone(false);
+    inputRef.current?.click();
+  };
 
   return (
     <SectionWrapper>
@@ -275,8 +252,8 @@ export function GuestPhotoUpload() {
                     </div>
                   )}
 
-                  {/* Remove button (only for pending) */}
-                  {item.status === "pending" && (
+                  {/* Remove button (uploading 제외 모든 상태) */}
+                  {item.status !== "uploading" && (
                     <button
                       onClick={() => removeFile(item.id)}
                       style={{
@@ -323,31 +300,65 @@ export function GuestPhotoUpload() {
           </div>
         )}
 
-        {/* Error summary */}
-        {errorCount > 0 && !uploading && (
-          <p style={{ fontFamily: "Gowun Dodum, serif", fontSize: "0.78rem", color: "#c0392b", textAlign: "center", marginBottom: 12 }}>
-            {errorCount}장 업로드 실패 — 다시 시도해주세요
-          </p>
+        {/* Inline summary (업로드가 끝난 뒤, 대기 중인 사진이 없을 때) */}
+        {done && !uploading && pendingCount === 0 && (
+          <div style={{
+            background: COLORS.cream,
+            border: `1px solid ${COLORS.border}`,
+            borderRadius: 16,
+            padding: "16px",
+            marginBottom: 16,
+            textAlign: "center",
+          }}>
+            {errorCount === 0 ? (
+              <p style={{ fontFamily: "Gowun Dodum, serif", fontSize: "0.85rem", color: COLORS.dark, lineHeight: 1.7 }}>
+                ✓ {uploadedCount}장이 전달되었어요. 감사합니다 ✨
+              </p>
+            ) : (
+              <p style={{ fontFamily: "Gowun Dodum, serif", fontSize: "0.82rem", color: COLORS.dark, lineHeight: 1.7 }}>
+                {uploadedCount > 0 && <>{uploadedCount}장 전달 완료 · </>}
+                <span style={{ color: "#c0392b" }}>{errorCount}장 실패</span>
+                <br />
+                <span style={{ color: COLORS.mid, fontSize: "0.76rem" }}>실패한 사진은 X로 지우고 다시 올려주세요</span>
+              </p>
+            )}
+            <button
+              onClick={addMore}
+              style={{
+                marginTop: 12,
+                padding: "8px 20px",
+                borderRadius: 100,
+                border: `1px solid ${COLORS.border}`,
+                background: "transparent",
+                color: COLORS.mid,
+                fontFamily: "Gowun Dodum, serif",
+                fontSize: "0.78rem",
+                cursor: "pointer",
+              }}
+            >
+              사진 더 올리기
+            </button>
+          </div>
         )}
 
         {/* Upload button */}
-        {files.length > 0 && (
+        {(pendingCount > 0 || uploading) && (
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={uploadAll}
-            disabled={uploading || pendingCount === 0}
+            disabled={uploading}
             style={{
               width: "100%",
               padding: "16px",
               borderRadius: 16,
               border: "none",
-              background: uploading || pendingCount === 0 ? "#D0CCCC" : COLORS.sage,
+              background: uploading ? "#D0CCCC" : COLORS.sage,
               color: COLORS.dark,
               fontFamily: "Gowun Dodum, serif",
               fontSize: "0.95rem",
-              cursor: uploading || pendingCount === 0 ? "not-allowed" : "pointer",
+              cursor: uploading ? "not-allowed" : "pointer",
               letterSpacing: "0.08em",
-              boxShadow: uploading || pendingCount === 0 ? "none" : "0 4px 20px rgba(192,211,180,0.4)",
+              boxShadow: uploading ? "none" : "0 4px 20px rgba(192,211,180,0.4)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -355,11 +366,7 @@ export function GuestPhotoUpload() {
             }}
           >
             <Upload size={16} />
-            {uploading
-              ? "업로드 중..."
-              : pendingCount === 0
-              ? "업로드 완료"
-              : `${pendingCount}장 업로드하기`}
+            {uploading ? "업로드 중..." : `${pendingCount}장 업로드하기`}
           </motion.button>
         )}
       </div>
