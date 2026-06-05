@@ -78,14 +78,7 @@ export function GuestPhotoUpload() {
         prev.map((f) => f.id === item.id ? { ...f, status: "uploading" } : f)
       );
       try {
-        const origMB = (item.file.size / 1024 / 1024).toFixed(1);
-        let fileToUpload: File;
-        try {
-          fileToUpload = await compressIfNeeded(item.file);
-        } catch (ce) {
-          throw new Error(`압축실패(${origMB}MB·${item.file.type || "?"}): ${ce instanceof Error ? ce.message : String(ce)}`);
-        }
-        const sizeMB = (fileToUpload.size / 1024 / 1024).toFixed(1);
+        const fileToUpload = await compressIfNeeded(item.file);
         const uploadName = fileToUpload.type === "image/webp"
           ? item.file.name.replace(/\.[^.]+$/, ".webp")
           : item.file.name;
@@ -93,15 +86,16 @@ export function GuestPhotoUpload() {
         formData.append("file", fileToUpload, uploadName);
         const res = await fetch("/api/upload-photo", { method: "POST", body: formData });
         if (!res.ok) {
-          let serverMsg = `HTTP ${res.status}`;
-          try { const d = await res.json(); serverMsg = d.error || serverMsg; } catch { /* 비-JSON 응답(예: Vercel 413) */ }
-          throw new Error(`업로드실패(원본 ${origMB}→전송 ${sizeMB}MB): ${serverMsg}`);
+          // 비-JSON 응답(예: Vercel 413)에서 res.json()이 터지지 않도록 방어
+          let serverMsg = "업로드에 실패했습니다.";
+          try { const d = await res.json(); serverMsg = d.error || serverMsg; } catch { /* noop */ }
+          throw new Error(serverMsg);
         }
         setFiles((prev) =>
           prev.map((f) => f.id === item.id ? { ...f, status: "done", error: undefined } : f)
         );
       } catch (err) {
-        const msg = err instanceof Error ? err.message : String(err);
+        const msg = err instanceof Error ? err.message : "업로드 실패";
         setFiles((prev) =>
           prev.map((f) => f.id === item.id ? { ...f, status: "error", error: msg } : f)
         );
@@ -307,17 +301,6 @@ export function GuestPhotoUpload() {
             <p style={{ fontFamily: "Gowun Dodum, serif", fontSize: "0.78rem", color: COLORS.mid, textAlign: "center" }}>
               {uploadedCount} / {files.length}장 업로드 중...
             </p>
-          </div>
-        )}
-
-        {/* [임시 진단] 실패 사진별 실제 에러 메시지 — 원인 파악 후 이 블록 삭제 */}
-        {files.some((f) => f.status === "error" && f.error) && (
-          <div style={{ marginBottom: 12, padding: "10px 12px", background: "#fbeaea", borderRadius: 10 }}>
-            {files.filter((f) => f.status === "error" && f.error).map((f) => (
-              <p key={f.id} style={{ fontSize: "0.68rem", color: "#a52a2a", wordBreak: "break-all", lineHeight: 1.5, margin: "2px 0" }}>
-                {f.file.name} → {f.error}
-              </p>
-            ))}
           </div>
         )}
 
