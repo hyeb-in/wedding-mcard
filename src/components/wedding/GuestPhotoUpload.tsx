@@ -11,10 +11,12 @@ const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 const COMPRESS_THRESHOLD = 4.4 * 1024 * 1024; // 4.4MB 이상이면 압축 (Vercel 4.5MB 요청 제한 회피)
 
 // 4.4MB 이상 사진만 WebP·4MB 목표로 최소 압축. 그 미만은 원본 그대로 업로드.
+// maxWidthOrHeight: 모바일 브라우저 canvas 한계(약 4096px)를 넘는 고해상도 사진 압축 실패 방지.
 async function compressIfNeeded(file: File): Promise<File> {
   if (file.size < COMPRESS_THRESHOLD) return file;
   return imageCompression(file, {
     maxSizeMB: 4,
+    maxWidthOrHeight: 3000,
     fileType: "image/webp",
     initialQuality: 0.92,
     useWebWorker: true,
